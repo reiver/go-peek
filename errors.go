@@ -5,5 +5,5 @@ import (
 )
 
 const (
-	errNilRuneScanner = erorr.Error("peek: nil receiver")
+	errNilRuneScanner = erorr.Error("peek: nil rune-scanner")
 )
