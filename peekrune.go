@@ -15,17 +15,15 @@ func PeekRune(runescanner io.RuneScanner) (r rune, size int, err error) {
 	}
 
 	r, size, err = runescanner.ReadRune()
-	if io.EOF == err {
-		return r, size, err
+	if 0 < size {
+		e := runescanner.UnreadRune()
+		if nil != e {
+			return r, size, erorr.Errorf("peek: problem unreading rune: %w", err)
+		}
 	}
-	if nil != err {
+	if nil != err && io.EOF != err {
 		return r, size, erorr.Errorf("peek: problem reading rune: %w", err)
 	}
 
-	err = runescanner.UnreadRune()
-	if nil != err {
-		return r, size, erorr.Errorf("peek: problem unreading rune: %w", err)
-	}
-
-	return r, size, nil
+	return r, size, err
 }
